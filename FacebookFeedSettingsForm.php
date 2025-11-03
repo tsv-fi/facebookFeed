@@ -13,7 +13,11 @@
  * @brief Form for journal managers to modify Facebook Feed plugin settings
  */
 
-import('lib.pkp.classes.form.Form');
+namespace APP\plugins\generic\facebookFeed;
+
+use APP\template\TemplateManager;
+use PKP\form\Form;
+
 
 class FacebookFeedSettingsForm extends Form {
 
@@ -34,8 +38,8 @@ class FacebookFeedSettingsForm extends Form {
 
 		parent::__construct($plugin->getTemplateResource('settingsForm.tpl'));
 
-		$this->addCheck(new FormValidatorPost($this));
-		$this->addCheck(new FormValidatorCSRF($this));
+		$this->addCheck(new \PKP\form\validation\FormValidatorPost($this));
+		$this->addCheck(new \PKP\form\validation\FormValidatorCSRF($this));
 	}
 
 	/**
@@ -67,9 +71,15 @@ class FacebookFeedSettingsForm extends Form {
 	/**
 	 * Save settings.
 	 */
-	function execute() {
-		$this->_plugin->updateSetting($this->_contextId, 'facebookFeedUrl', trim($this->getData('facebookFeedUrl'), "\"\';"), 'string');
-	}
+    public function execute(...$functionArgs)
+    {
+        $this->_plugin->updateSetting($this->_contextId, 'facebookFeedUrl', trim($this->getData('facebookFeedUrl'), "\"\';"), 'string');
+        parent::execute(...$functionArgs);
+    }
+}
+
+if (!PKP_STRICT_MODE) {
+    class_alias('\APP\plugins\generic\facebookFeed\FacebookFeedSettingsForm', '\FacebookFeedSettingsForm');
 }
 
 ?>

@@ -13,9 +13,9 @@
  * @brief Class for block component of Facebook Feed plugin
  */
 
-import('lib.pkp.classes.plugins.BlockPlugin');
+namespace APP\plugins\generic\facebookFeed;
 
-class FacebookFeedBlockPlugin extends BlockPlugin {
+class FacebookFeedBlockPlugin extends \PKP\plugins\BlockPlugin {
 	/** @var FacebookFeedPlugin Parent plugin */
 	protected $_parentPlugin;
 

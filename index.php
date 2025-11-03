@@ -16,8 +16,6 @@
  *
  */
 
-require_once('FacebookFeedPlugin.inc.php');
-
+namespace APP\plugins\generic\facebookFeed;
 return new FacebookFeedPlugin();
-
 ?>

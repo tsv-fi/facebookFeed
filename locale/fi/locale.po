@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Facebook Feed plugin\n"
+"Language: fi_FI\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "plugins.generic.facebookFeed.displayName"
+msgstr "Facebook -syöte"
+
+msgid "plugins.generic.facebookFeed.description"
+msgstr "Lisää Facebook syöte julkaisun sivupalkkiin."
+
+msgid "plugins.generic.facebookFeed.manager.settings.description"
+msgstr "Anna Facebook-sivun URL-osoite. Älä käytä osoitteen lokalisoitua muotoa (esimerkiksi https://fi-fi.facebook.com/somePageHere/), vaan muotoa https://www.facebook.com/somePageHere/."
+
+msgid "plugins.generic.facebookFeed.manager.settings.facebookFeedUrl"
+msgstr "Facebook sivun URL-osoite"

@@ -13,8 +13,8 @@
 <version>
 	<application>facebookFeed</application>
 	<type>plugins.generic</type>
-	<release>1.0.0.1</release>
-	<date>2019-07-03</date>
+	<release>3.4.0.0</release>
+	<date>2025-11-03</date>
 	<lazy-load>1</lazy-load>
 	<class>FacebookFeedPlugin</class>
 </version>

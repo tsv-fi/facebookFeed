@@ -1,0 +1,18 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Facebook Feed plugin\n"
+"Language: en_US\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "plugins.generic.facebookFeed.displayName"
+msgstr "Facebook Feed Plugin"
+
+msgid "plugins.generic.facebookFeed.description"
+msgstr "Integrate a Facebook Feed to OJS/OMP sidebar."
+
+msgid "plugins.generic.facebookFeed.manager.settings.description"
+msgstr "Enter a Facebook page URL. Do not use a localised version of the URL (for example https://fi-fi.facebook.com/somePageHere/) instead use an url like https://www.facebook.com/somePageHere/."
+
+msgid "plugins.generic.facebookFeed.manager.settings.facebookFeedUrl"
+msgstr "Facebook page URL"

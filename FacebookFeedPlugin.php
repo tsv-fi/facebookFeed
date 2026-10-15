@@ -1,13 +1,14 @@
 <?php
 
 /**
- * @file plugins/generic/facebookFeed/FacebookFeedPlugin.inc.php
+ * @file plugins/generic/facebookFeed/FacebookFeedPlugin.php
  *
- * Copyright (c) 2014-2018 Simon Fraser University
- * Copyright (c) 2003-2018 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class FacebookFeedPlugin
+ *
  * @ingroup plugins_generic_facebookFeed
  *
  * @brief Facebook Feed plugin class
@@ -16,47 +17,50 @@
 namespace APP\plugins\generic\facebookFeed;
 
 use APP\core\Application;
-use APP\template\TemplateManager;
 use PKP\core\JSONMessage;
 use PKP\linkAction\LinkAction;
 use PKP\linkAction\request\AjaxModal;
 use PKP\plugins\GenericPlugin;
-use PKP\plugins\Hook;
 use PKP\plugins\PluginRegistry;
 
-
-class FacebookFeedPlugin extends GenericPlugin {
-	/**
-	 * @copydoc Plugin::register()
-	 */
-	function register($category, $path, $mainContextId = null) {
+class FacebookFeedPlugin extends GenericPlugin
+{
+    /**
+     * @copydoc Plugin::register()
+     *
+     * @param null|mixed $mainContextId
+     */
+    public function register($category, $path, $mainContextId = null)
+    {
         $success = parent::register($category, $path, $mainContextId);
         if (Application::isUnderMaintenance()) {
             return true;
         }
         if ($success && $this->getEnabled($mainContextId)) {
-			PluginRegistry::register('blocks', new FacebookFeedBlockPlugin($this), $this->getPluginPath());
-		}
-		return $success;
-	}
+            PluginRegistry::register('blocks', new FacebookFeedBlockPlugin($this), $this->getPluginPath());
+        }
+        return $success;
+    }
 
-	/**
-	 * @copydoc Plugin::getDisplayName()
-	 */
-	function getDisplayName() {
-		return __('plugins.generic.facebookFeed.displayName');
-	}
+    /**
+     * @copydoc Plugin::getDisplayName()
+     */
+    public function getDisplayName()
+    {
+        return __('plugins.generic.facebookFeed.displayName');
+    }
 
-	/**
-	 * @copydoc Plugin::getDescription()
-	 */
-	function getDescription() {
-		return __('plugins.generic.facebookFeed.description');
-	}
+    /**
+     * @copydoc Plugin::getDescription()
+     */
+    public function getDescription()
+    {
+        return __('plugins.generic.facebookFeed.description');
+    }
 
-	/**
-	 * @copydoc Plugin::getActions()
-	 */
+    /**
+     * @copydoc Plugin::getActions()
+     */
     public function getActions($request, $verb)
     {
         $router = $request->getRouter();
@@ -76,17 +80,14 @@ class FacebookFeedPlugin extends GenericPlugin {
         );
     }
 
- 	/**
-	 * @copydoc Plugin::manage()
-	 */
+    /**
+     * @copydoc Plugin::manage()
+     */
     public function manage($args, $request)
     {
         switch ($request->getUserVar('verb')) {
             case 'settings':
                 $context = $request->getContext();
-                $templateMgr = TemplateManager::getManager($request);
-                $templateMgr->registerPlugin('function', 'plugin_url', [$this, 'smartyPluginUrl']);
-
                 $form = new FacebookFeedSettingsForm($this, $context->getId());
 
                 if ($request->getUserVar('save')) {
@@ -102,5 +103,4 @@ class FacebookFeedPlugin extends GenericPlugin {
         }
         return parent::manage($args, $request);
     }
-}	
-?>
+}

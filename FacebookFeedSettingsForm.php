@@ -1,13 +1,14 @@
 <?php
 
 /**
- * @file plugins/generic/facebookFeed/FacebookFeedSettingsForm.inc.php
+ * @file plugins/generic/facebookFeed/FacebookFeedSettingsForm.php
  *
- * Copyright (c) 2014-2018 Simon Fraser University
- * Copyright (c) 2003-2018 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class FacebookFeedSettingsForm
+ *
  * @ingroup plugins_generic_facebookFeed
  *
  * @brief Form for journal managers to modify Facebook Feed plugin settings
@@ -17,63 +18,62 @@ namespace APP\plugins\generic\facebookFeed;
 
 use APP\template\TemplateManager;
 use PKP\form\Form;
+use PKP\form\validation\FormValidatorCSRF;
+use PKP\form\validation\FormValidatorPost;
 
+class FacebookFeedSettingsForm extends Form
+{
+    private int $contextId;
 
-class FacebookFeedSettingsForm extends Form {
+    private FacebookFeedPlugin $plugin;
 
-	/** @var int */
-	var $_contextId;
+    public function __construct(FacebookFeedPlugin $plugin, int $contextId)
+    {
+        $this->contextId = $contextId;
+        $this->plugin = $plugin;
 
-	/** @var object */
-	var $_plugin;
+        parent::__construct($plugin->getTemplateResource('settingsForm.tpl'));
 
-	/**
-	 * Constructor
-	 * @param $plugin FacebookFeedPlugin
-	 * @param $contextId int
-	 */
-	function __construct($plugin, $contextId) {
-		$this->_contextId = $contextId;
-		$this->_plugin = $plugin;
+        $this->addCheck(new FormValidatorPost($this));
+        $this->addCheck(new FormValidatorCSRF($this));
+    }
 
-		parent::__construct($plugin->getTemplateResource('settingsForm.tpl'));
+    /**
+     * Initialize form data.
+     */
+    public function initData()
+    {
+        $this->_data = [
+            'facebookFeedUrl' => $this->plugin->getSetting($this->contextId, 'facebookFeedUrl'),
+        ];
+    }
 
-		$this->addCheck(new \PKP\form\validation\FormValidatorPost($this));
-		$this->addCheck(new \PKP\form\validation\FormValidatorCSRF($this));
-	}
+    /**
+     * Assign form data to user-submitted data.
+     */
+    public function readInputData()
+    {
+        $this->readUserVars(['facebookFeedUrl']);
+    }
 
-	/**
-	 * Initialize form data.
-	 */
-	function initData() {
-		$this->_data = array(
-			'facebookFeedUrl' => $this->_plugin->getSetting($this->_contextId, 'facebookFeedUrl'),
-		);
-	}
+    /**
+     * @copydoc Form::fetch()
+     *
+     * @param null|mixed $template
+     */
+    public function fetch($request, $template = null, $display = false)
+    {
+        $templateMgr = TemplateManager::getManager($request);
+        $templateMgr->assign('pluginName', $this->plugin->getName());
+        return parent::fetch($request, $template, $display);
+    }
 
-	/**
-	 * Assign form data to user-submitted data.
-	 */
-	function readInputData() {
-		$this->readUserVars(array('facebookFeedUrl'));
-	}
-
-	/**
-	 * Fetch the form.
-	 * @copydoc Form::fetch()
-	 */
-	function fetch($request, $template = NULL, $display = false) {
-		$templateMgr = TemplateManager::getManager($request);
-		$templateMgr->assign('pluginName', $this->_plugin->getName());
-		return parent::fetch($request, $template, $display);
-	}
-
-	/**
-	 * Save settings.
-	 */
+    /**
+     * @copydoc Form::execute()
+     */
     public function execute(...$functionArgs)
     {
-        $this->_plugin->updateSetting($this->_contextId, 'facebookFeedUrl', trim($this->getData('facebookFeedUrl'), "\"\';"), 'string');
+        $this->plugin->updateSetting($this->contextId, 'facebookFeedUrl', trim((string) $this->getData('facebookFeedUrl'), "\"\';"), 'string');
         parent::execute(...$functionArgs);
     }
 }
@@ -81,5 +81,3 @@ class FacebookFeedSettingsForm extends Form {
 if (!PKP_STRICT_MODE) {
     class_alias('\APP\plugins\generic\facebookFeed\FacebookFeedSettingsForm', '\FacebookFeedSettingsForm');
 }
-
-?>

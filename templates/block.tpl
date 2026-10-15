@@ -11,17 +11,16 @@
 
 <div class="pkp_block block_facebookFeed">
 	<div class="content">
-		<div id="fb-root"></div>
-		{literal}
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = 'https://connect.facebook.net/fi_FI/sdk.js#xfbml=1&version=v2.12';
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>
-		{/literal}
-		<div class="fb-page" data-href="{$facebookFeedUrl}" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="" class="fb-xfbml-parse-ignore"><a href="{$facebookFeedUrl}">{$facebookFeedUrl}</a></blockquote></div>			
+		<iframe
+			src="https://www.facebook.com/plugins/page.php?href={$facebookFeedUrl|escape:"url"}&amp;tabs=timeline&amp;width=500&amp;height=500&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=false&amp;locale=fi_FI"
+			title="Facebook"
+			style="border:none;overflow:hidden;width:100%;height:500px;"
+			scrolling="no"
+			frameborder="0"
+			allowfullscreen="true"
+			loading="lazy"
+			allow="clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+		<p class="facebookFeedLink"><a href="{$facebookFeedUrl|escape}">{$facebookFeedUrl|escape}</a></p>
 	</div>
 </div>
 

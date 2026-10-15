@@ -1,13 +1,14 @@
 <?php
 
 /**
- * @file plugins/generic/facebookFeed/FacebookFeedBlockPlugin.inc.php
+ * @file plugins/generic/facebookFeed/FacebookFeedBlockPlugin.php
  *
- * Copyright (c) 2014-2018 Simon Fraser University
- * Copyright (c) 2003-2018 John Willinsky
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Copyright (c) 2014-2026 Simon Fraser University
+ * Copyright (c) 2003-2026 John Willinsky
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class FacebookFeedBlockPlugin
+ *
  * @ingroup plugins_generic_facebookFeed
  *
  * @brief Class for block component of Facebook Feed plugin
@@ -15,79 +16,78 @@
 
 namespace APP\plugins\generic\facebookFeed;
 
-class FacebookFeedBlockPlugin extends \PKP\plugins\BlockPlugin {
-	/** @var FacebookFeedPlugin Parent plugin */
-	protected $_parentPlugin;
+use PKP\plugins\BlockPlugin;
 
-	/**
-	 * @param $parentPlugin FacebookFeedPlugin
-	 */
-	public function __construct($parentPlugin) {
-		parent::__construct();
-		$this->_parentPlugin = $parentPlugin;
-	}
+class FacebookFeedBlockPlugin extends BlockPlugin
+{
+    /** Parent plugin */
+    protected FacebookFeedPlugin $parentPlugin;
 
-	/**
-	 * Get the name of this plugin. The name must be unique within
-	 * its category.
-	 * @return String name of plugin
-	 */
-	public function getName() {
-		return 'FacebookFeedBlockPlugin';
-	}
+    public function __construct(FacebookFeedPlugin $parentPlugin)
+    {
+        parent::__construct();
+        $this->parentPlugin = $parentPlugin;
+    }
 
-	/**
-	 * Hide this plugin from the management interface (it's subsidiary)
-	 */
-	public function getHideManagement() {
-		return true;
-	}
+    /**
+     * Get the name of this plugin. The name must be unique within
+     * its category.
+     */
+    public function getName()
+    {
+        return 'FacebookFeedBlockPlugin';
+    }
 
-	/**
-	 * Get the display name of this plugin.
-	 * @return String
-	 */
-	public function getDisplayName() {
-		return __('plugins.generic.facebookFeed.displayName');
-	}
+    /**
+     * Hide this plugin from the management interface (it's subsidiary)
+     */
+    public function getHideManagement()
+    {
+        return true;
+    }
 
-	/**
-	 * Get a description of the plugin.
-	 */
-	public function getDescription() {
-		return __('plugins.generic.facebookFeed.description');
-	}
+    /**
+     * @copydoc Plugin::getDisplayName()
+     */
+    public function getDisplayName()
+    {
+        return __('plugins.generic.facebookFeed.displayName');
+    }
 
-	/**
-	 * Get the supported contexts (e.g. BLOCK_CONTEXT_...) for this block.
-	 * @return array
-	 */
-	public function getSupportedContexts() {
-		return array(BLOCK_CONTEXT_SIDEBAR);
-	}
+    /**
+     * @copydoc Plugin::getDescription()
+     */
+    public function getDescription()
+    {
+        return __('plugins.generic.facebookFeed.description');
+    }
 
-	/**
-	 * Override the builtin to get the correct plugin path.
-	 * @return string
-	 */
-	public function getPluginPath() {
-		return $this->_parentPlugin->getPluginPath();
-	}
+    /**
+     * Override the builtin to get the correct plugin path.
+     */
+    public function getPluginPath()
+    {
+        return $this->parentPlugin->getPluginPath();
+    }
 
-	/**
-	 * Get the HTML contents for this block.
-	 * @param $templateMgr object
-	 * @param $request PKPRequest
-	 * @return $string
-	 */
-	public function getContents($templateMgr, $request = null) {
-		$context = $request->getContext();
+    /**
+     * @copydoc BlockPlugin::getContents()
+     *
+     * @param null|mixed $request
+     */
+    public function getContents($templateMgr, $request = null)
+    {
+        $context = $request?->getContext();
+        if (!$context) {
+            return '';
+        }
 
-		if ($facebookFeedUrl = $this->_parentPlugin->getSetting($context->getId(), 'facebookFeedUrl')){
-			$templateMgr->assign('facebookFeedUrl', $facebookFeedUrl);
-		} else {
-			return '';
-		}
-		return parent::getContents($templateMgr, $request);
-	}
+        $facebookFeedUrl = $this->parentPlugin->getSetting($context->getId(), 'facebookFeedUrl');
+        if (!$facebookFeedUrl) {
+            return '';
+        }
+
+        $templateMgr->assign('facebookFeedUrl', $facebookFeedUrl);
+        return parent::getContents($templateMgr, $request);
+    }
 }

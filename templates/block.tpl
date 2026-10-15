@@ -21,7 +21,8 @@
 		  fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));</script>
 		{/literal}
-		<div class="fb-page" data-href="{$facebookFeedUrl|escape}" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="{$facebookFeedUrl|escape}" class="fb-xfbml-parse-ignore"><a href="{$facebookFeedUrl|escape}">{$facebookFeedUrl|escape}</a></blockquote></div>
+		{* Header only: Meta does not show the timeline to most European Region visitors *}
+		<div class="fb-page" data-href="{$facebookFeedUrl|escape}" data-tabs="" data-height="130" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><blockquote cite="{$facebookFeedUrl|escape}" class="fb-xfbml-parse-ignore"></blockquote></div>
 	</div>
 </div>
 
